@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: zzr
+Build-Jdk: 11.0.2
+Implementation-Title: weixin_zzr_1
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.example
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/weixin_zzr_1
+Created-By: Maven Integration for Eclipse
+
