@@ -1,6 +1,10 @@
 package com.example.weixin_zzr_1.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 // @RequestMapping表示的含义：URL跟控制器的关系映射
 @RequestMapping("/zzr_1/weixin/receiver")
 public class MessageReceiverController {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(MessageReceiverController.class);
 
 	@GetMapping // 只处理GET请求
 	public String echo(//
@@ -29,7 +35,19 @@ public class MessageReceiverController {
 		System.out.println("打印测试");
 		// 原路返回echostr的值，返回以后微信公众号平台就能够认为：服务器对接成功
 		return echostr;
-		
 	}
 	
+		// 当微信客户端发送任意消息给公众号的时候，消息都会通过POST方式提交到当前类里面。
+		// @PostMapping专门用于处理POST请求。
+		// 消息的格式是XML形式的字符串，整个消息放入了请求体里面。
+		@PostMapping
+		public String onMessage(@RequestParam("signature") String signature, //
+				@RequestParam("timestamp") String timestamp, //
+				@RequestParam("nonce") String nonce, //
+				@RequestBody String xml) {
+			LOG.debug("收到用户发送给公众号的信息: \n-----------------------------------------\n"
+					+ "{}\n-----------------------------------------\n", xml);
+			// 由于后面会把消息放入队列中，所以这里直接返回success。
+			return "success";
+		}
 }
